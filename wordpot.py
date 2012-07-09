@@ -80,6 +80,7 @@ def plugin(plugin, subpath='/'):
     LOGGER.info('%s probed a plugin: "%s" with path "%s"', origin, plugin, subpath)
     if timthumb(subpath):
         LOGGER.info('%s probed for timthumb: %s', origin, subpath)
+        return render_template('timthumb.html') 
     return render_template('dummy.html', blogtitle=BLOGTITLE, version=VERSION)
 
 @app.route('/wp-content/themes/<plugin>', methods=['GET', 'POST'])
@@ -90,6 +91,7 @@ def theme(theme, subpath='/'):
     LOGGER.info('%s probed a theme: "%s" with path "%s"', origin, theme, subpath)
     if timthumb(subpath):
         LOGGER.info('%s probed for timthumb: %s', origin, subpath)
+        return render_template('timthumb.html') 
     return render_template('dummy.html', blogtitle=BLOGTITLE, version=VERSION) 
 
 # -------------
