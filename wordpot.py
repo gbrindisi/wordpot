@@ -57,8 +57,16 @@ def readme():
     LOGGER.info('%s probed for the readme', origin)
     return render_template('readme.html', version=VERSION)
 
+@app.route('/xmlrpc.php', methods=['GET', 'POST'])
+def xmlrpc():
+    """ xmlrpc.php probing handler """
+    origin = request.remote_addr
+    LOGGER.info('%s probed for xmlrpc.php', origin)
+    return render_template('xmlrpc.html') 
+
+@app.route('/wp-login.php', methods=['GET', 'POST'])
 @app.route('/wp-admin<regex("\/.*"):subpath>', methods=['GET', 'POST'])
-def admin(subpath):
+def admin(subpath='/'):
     """ Admin panel probing handler """
     origin = request.remote_addr
     LOGGER.info('%s probed for the admin panel with path: %s', origin, subpath)
