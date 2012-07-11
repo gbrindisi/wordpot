@@ -2,9 +2,9 @@
 	<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>{{ blogtitle }} &rsaquo; Log In</title>
-    <link rel='stylesheet' id='wp-admin-css'  href='../static/css/wp-admin.css?ver={{ version }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='colors-fresh-css'  href=../static/css/colors-fresh.css?ver={{ version }}' type='text/css' media='all' />
+    <title>{{ tpl['BLOGTITLE'] }} &rsaquo; Log In</title>
+    <link rel='stylesheet' id='wp-admin-css'  href='{{ url_for("static", filename="wp-admin/css/wp-admin.css") }}' type='text/css' media='all' />
+    <link rel='stylesheet' id='colors-fresh-css'  href='{{ url_for("static", filename="wp-admin/css/colors-fresh.css") }}' type='text/css' media='all' />
 <meta name='robots' content='noindex,nofollow' />
 	</head>
 	<body class="login">
@@ -29,7 +29,7 @@
 </form>
 
 <p id="nav">
-<a href=/wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>
+<a href="/wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password?</a>
 </p>
 
 <script type="text/javascript">
