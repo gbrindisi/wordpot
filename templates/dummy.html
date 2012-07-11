@@ -16,10 +16,10 @@
 <meta name="viewport" content="width=device-width" />
 <title>{{ tpl['BLOGTITLE'] }} | Just another WordPress site</title>
 <link rel="profile" href="http://gmpg.org/xfn/11" />
-<link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', filename='wp-content/themes/'+tpl['THEME']+'/style.css') }}" />
+<link rel="stylesheet" type="text/css" media="all" href="{{ url_for('static', _external=True, filename='wp-content/themes/'+tpl['THEME']+'/style.css') }}" />
 <link rel="pingback" href=#" />
 <!--[if lt IE 9]>
-<script src="{{ url_for('static', filename='wp-content/themes/'+tpl['THEME']+'/js/html5.js') }}" type="text/javascript"></script>
+<script src="{{ url_for('static', _external=True, filename='wp-content/themes/'+tpl['THEME']+'/js/html5.js') }}" type="text/javascript"></script>
 <![endif]-->
 <meta name='robots' content='noindex,nofollow' />
 <link rel="alternate" type="application/rss+xml" title="{{ tpl['BLOGTITLE'] }} &raquo; Feed" href="#" />

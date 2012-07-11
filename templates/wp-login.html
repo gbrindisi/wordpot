@@ -3,8 +3,8 @@
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>{{ tpl['BLOGTITLE'] }} &rsaquo; Log In</title>
-    <link rel='stylesheet' id='wp-admin-css'  href='{{ url_for("static", filename="wp-admin/css/wp-admin.css") }}' type='text/css' media='all' />
-    <link rel='stylesheet' id='colors-fresh-css'  href='{{ url_for("static", filename="wp-admin/css/colors-fresh.css") }}' type='text/css' media='all' />
+    <link rel='stylesheet' id='wp-admin-css'  href='{{ url_for("static", _external=True, filename="wp-admin/css/wp-admin.css") }}' type='text/css' media='all' />
+    <link rel='stylesheet' id='colors-fresh-css'  href='{{ url_for("static", _external=True, filename="wp-admin/css/colors-fresh.css") }}' type='text/css' media='all' />
 <meta name='robots' content='noindex,nofollow' />
 	</head>
 	<body class="login">
