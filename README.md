@@ -1,7 +1,6 @@
 # Wordpot
 
-Wordpot is a Wordpress honeypot which detects probes for plugins, themes, timthumb and other common files useful to fingerprint a wordpress installation.
-
+Wordpot is a Wordpress honeypot which detects probes for plugins, themes, timthumb and other common files used to fingerprint a wordpress installation.
    
     $ python wordpot.py --help
     Usage: wordpot.py [options]
@@ -11,15 +10,22 @@ Wordpot is a Wordpress honeypot which detects probes for plugins, themes, timthu
       --host=HOST    Host address
       --port=PORT    Port address
       --title=TITLE  Blog Title
+      --theme=THEME  Default theme name
       --ver=VERSION  Wordpress version
 
-You can customize the main template by editing `templates/dummy.html` and the associated images and style sheets in the same directory.
+## Theme support
+
+The html skeleton is stored in `templates/dummy.html` and you can use a wordpress theme as you would in a normal Wordpress installation by putting the theme folder in the `static/wp-content/themes/` directory. 
+
+To use the theme start wordpot with the theme option (default value is `twentyeleven`:
+    
+    $ python wordpot --theme=THEMENAME
 
 ## License
 
 ISC License.
  
-> Copyright (c) 2012, Gianluca Brindisi <g@brindi.si>
+> Copyright (c) 2012, Gianluca Brindisi < g@brindi.si >
 >
 > Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission notice appear in all copies.
 >
