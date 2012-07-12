@@ -17,7 +17,7 @@ Wordpot is a Wordpress honeypot which detects probes for plugins, themes, timthu
 
 The html skeleton is stored in `templates/dummy.html` and you can use a wordpress theme as you would in a normal Wordpress installation by putting the theme folder in the `static/wp-content/themes/` directory. 
 
-To use the theme start wordpot with the theme option (default value is `twentyeleven`:
+To use the theme start wordpot with the theme option (default value is `twentyeleven`):
     
     $ python wordpot --theme=THEMENAME
 
