@@ -5,12 +5,24 @@
     <title>{{ tpl['BLOGTITLE'] }} &rsaquo; Log In</title>
     <link rel='stylesheet' id='wp-admin-css'  href='{{ url_for("static", _external=True, filename="wp-admin/css/wp-admin.css") }}' type='text/css' media='all' />
     <link rel='stylesheet' id='colors-fresh-css'  href='{{ url_for("static", _external=True, filename="wp-admin/css/colors-fresh.css") }}' type='text/css' media='all' />
-<meta name='robots' content='noindex,nofollow' />
+    <meta name='robots' content='noindex,nofollow' />
+{% if errors['BADLOGIN'] %}
+<script type="text/javascript">
+addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
+function s(id,pos){g(id).left=pos+'px';}
+function g(id){return document.getElementById(id).style;}
+function shake(id,a,d){c=a.shift();s(id,c);if(a.length>0){setTimeout(function(){shake(id,a,d);},d);}else{try{g(id).position='static';wp_attempt_focus();}catch(e){}}}
+addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.concat(p));var i=document.forms[0].id;g(i).position='relative';shake(i,p,20);});
+</script>
+{% endif %}
 	</head>
 	<body class="login">
 	<div id="login">
 		<h1><a href="http://wordpress.org/" title="Powered by WordPress">Test</a></h1>
-	
+        {% if errors['BADLOGIN'] %}
+<div id="login_error">	<strong>ERROR</strong>: Invalid username. <a href="http://127.0.0.1/wordpress/wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password</a>?<br />
+</div>
+        {% endif %}
 <form name="loginform" id="loginform" action="wp-login.php" method="post">
 	<p>
 		<label for="user_login">Username<br />

@@ -27,6 +27,7 @@ TEMPLATE_VARS   = {
         'VERSION':   '',
         'THEME':     ''
                   }
+ERRORS          = {}
 
 
 # -------
@@ -72,8 +73,15 @@ def xmlrpc():
 @app.route('/wp-login.php', methods=['GET', 'POST'])
 def login():
     origin = request.remote_addr
-    LOGGER.info('%s probed for the login page', origin)
-    return render_template('wp-login.html', tpl=TEMPLATE_VARS)
+    if request.method == 'POST':
+        username = request.form['log']
+        password = request.form['pwd']
+        LOGGER.info('%s tried to login with username %s and password %s', origin, username, password)
+        ERRORS['BADLOGIN'] = True
+        return render_template('wp-login.html', tpl=TEMPLATE_VARS, errors=ERRORS)
+    else:
+        LOGGER.info('%s probed for the login page', origin)
+        return render_template('wp-login.html', tpl=TEMPLATE_VARS)
 
 @app.route('/wp-admin<regex("\/.*"):subpath>', methods=['GET', 'POST'])
 def admin(subpath='/'):
