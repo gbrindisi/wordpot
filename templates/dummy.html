@@ -57,16 +57,16 @@
 		<div id="primary">
 			<div id="content" role="main">
 
-			
-				
-								
+    {% if pagetype == 'authorarchive' %}    
+    <h1 class="page-title author">Author Archives: <span class="vcard"><a class="url fn n" href="http://127.0.0.1/wordpress/?author={{ tpl['AUTHOR']['id'] }}" title="{{ tpl['AUTHOR']['username'] }}" rel="me">{{ tpl['AUTHOR']['username'] }}</a></span></h1>				
+    {% endif %}							
 					
 	<article id="post-1" class="post-1 post type-post status-publish format-standard hentry category-uncategorized">
 		<header class="entry-header">
 						<h1 class="entry-title"><a href="/?p=1" title="Permalink to Hello world!" rel="bookmark">Hello world!</a></h1>
 			
 						<div class="entry-meta">
-				<span class="sep">Posted on </span><a href="/?p=1" title="9:57 am" rel="bookmark"><time class="entry-date" datetime="2012-06-28T09:57:14+00:00" pubdate>June 28, 2012</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="/?author=1" title="View all posts by admin" rel="author">admin</a></span></span>			</div><!-- .entry-meta -->
+				<span class="sep">Posted on </span><a href="/?p=1" title="9:57 am" rel="bookmark"><time class="entry-date" datetime="2012-06-28T09:57:14+00:00" pubdate>June 28, 2012</time></a><span class="by-author"> <span class="sep"> by </span> <span class="author vcard"><a class="url fn n" href="/?author={{ tpl['AUTHOR']['id'] }}" title="View all posts by {{ tpl['AUTHOR']['username'] }}" rel="author">{{ tpl['AUTHOR']['username'] }}</a></span></span>			</div><!-- .entry-meta -->
 			
 						<div class="comments-link">
 				<a href="/?p=1#comments" title="Comment on Hello world!">1</a>			</div>

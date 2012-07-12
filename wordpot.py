@@ -25,8 +25,15 @@ LOGGER          = logging.getLogger('wordpot')
 TEMPLATE_VARS   = {
         'BLOGTITLE': '',
         'VERSION':   '',
-        'THEME':     ''
+        'THEME':     '',
+        'AUTHOR':    ''
                   }
+
+# Just admin for now, planning to extend this in the future
+AUTHORS         = []
+AUTHORS.append( {'id': '1', 'username': 'admin'} )
+TEMPLATE_VARS['AUTHOR'] = AUTHORS[0]
+
 ERRORS          = {}
 
 
@@ -48,13 +55,33 @@ def logging_setup():
     
     return True
 
+# -------
+# Helpers
+# -------
+
+def user_enumeration(args):
+    if 'author' in args:
+        global TEMPLATE_VARS
+        for author in AUTHORS:
+            if author['id'] == args['author']:
+                TEMPLATE_VARS['AUTHOR'] = author
+                return True
+    return False
+
 # ------
 # Routes
 # ------
 
 @app.route('/')
-def homepage(file=None, path=None, subpath=None):
-    return render_template('dummy.html', tpl=TEMPLATE_VARS)
+@app.route('/index.php')
+def homepage():
+    origin = request.remote_addr
+    if user_enumeration(request.args):
+        author =  TEMPLATE_VARS['AUTHOR']['username']
+        LOGGER.info('%s probed author page for: %s', origin, author)
+        return render_template('dummy.html', tpl=TEMPLATE_VARS, pagetype='authorarchive')
+    else:
+        return render_template('dummy.html', tpl=TEMPLATE_VARS)
 
 @app.route('/readme.html', methods=['GET', 'POST'])
 def readme():
@@ -80,8 +107,9 @@ def login():
         ERRORS['BADLOGIN'] = True
         return render_template('wp-login.html', tpl=TEMPLATE_VARS, errors=ERRORS)
     else:
+        ERRORS['BADLOGIN'] = False
         LOGGER.info('%s probed for the login page', origin)
-        return render_template('wp-login.html', tpl=TEMPLATE_VARS)
+        return render_template('wp-login.html', tpl=TEMPLATE_VARS, errors=ERRORS)
 
 @app.route('/wp-admin<regex("\/.*"):subpath>', methods=['GET', 'POST'])
 def admin(subpath='/'):
@@ -122,7 +150,7 @@ def parse_options():
     parser = OptionParser(usage=usage)
     parser.add_option('--host', dest='host', default='127.0.0.1', help='Host address')
     parser.add_option('--port', dest='port', default='80', help='Port number')
-    parser.add_option('--title', dest='title', default='Random Rambling', help='Blog title')
+    parser.add_option('--title', dest='title', default='Random Ramblings', help='Blog title')
     parser.add_option('--theme', dest='theme', default='twentyeleven', help='Default theme name')
     parser.add_option('--ver', dest='version', default='2.8', help='Wordpress version')
 
@@ -134,7 +162,7 @@ def parse_options():
     global TEMPLATE_VARS
     global BLOGTITLE   
     global THEME
-    global VERSION 
+    global VERSION
 
     HOST                        = options.host
     PORT                        = options.port
