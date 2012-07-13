@@ -1,19 +1,18 @@
 #!/usr/bin/env python
 
+from wordpot import app
 import logging
-
-LOGGER = logging.getLogger('wordpot')
+import logging.handlers
 
 def logging_setup():
     # File handler
-    fh = logging.FileHandler('wordpot.log')
+    fh = logging.handlers.RotatingFileHandler('logs/wordpot.log', 'a', 2097152, 10)
     formatter = logging.Formatter('%(asctime)s - %(message)s')
     fh.setFormatter(formatter)
 
     # Add handlers
-    LOGGER.addHandler(fh)
+    app.logger.addHandler(fh)
    
     # Set level
-    LOGGER.setLevel(logging.INFO)
-    
+    app.logger.setLevel(logging.INFO)
     return True

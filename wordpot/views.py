@@ -3,7 +3,6 @@
 from flask import request, render_template, redirect, url_for
 from wordpot import app
 from wordpot.helpers import *
-from wordpot.logger import *
 
 @app.route('/')
 @app.route('/index.php')
@@ -18,14 +17,14 @@ def homepage():
 def readme():
     """ Readme probing handler """
     origin = request.remote_addr
-    LOGGER.info('%s probed for the readme', origin)
+    app.logger.info('%s probed for the readme', origin)
     return render_template('readme.html')
 
 @app.route('/xmlrpc.php', methods=['GET', 'POST'])
 def xmlrpc():
     """ xmlrpc.php probing handler """
     origin = request.remote_addr
-    LOGGER.info('%s probed for xmlrpc.php', origin)
+    app.logger.info('%s probed for xmlrpc.php', origin)
     return render_template('xmlrpc.html') 
 
 @app.route('/wp-login.php', methods=['GET', 'POST'])
@@ -36,12 +35,12 @@ def login():
     if request.method == 'POST':
         username = request.form['log']
         password = request.form['pwd']
-        LOGGER.info('%s tried to login with username %s and password %s', origin, username, password)
+        app.logger.info('%s tried to login with username %s and password %s', origin, username, password)
         ERRORS['BADLOGIN'] = True
         return render_template('wp-login.html', errors=ERRORS)
     else:
         ERRORS['BADLOGIN'] = False
-        LOGGER.info('%s probed for the login page', origin)
+        app.logger.info('%s probed for the login page', origin)
         return render_template('wp-login.html', errors=ERRORS)
 
 @app.route('/wp-admin', methods=['GET', 'POST'])
@@ -49,7 +48,7 @@ def login():
 def admin(subpath='/'):
     """ Admin panel probing handler """
     origin = request.remote_addr
-    LOGGER.info('%s probed for the admin panel with path: %s', origin, subpath)
+    app.logger.info('%s probed for the admin panel with path: %s', origin, subpath)
     return redirect(url_for('login'))
 
 @app.route('/wp-content/plugins/<plugin>', methods=['GET', 'POST'])
@@ -57,9 +56,9 @@ def admin(subpath='/'):
 def plugin(plugin, subpath='/'):
     """ Plugin probing handler """
     origin = request.remote_addr
-    LOGGER.info('%s probed a plugin: "%s" with path "%s"', origin, plugin, subpath)
+    app.logger.info('%s probed a plugin: "%s" with path "%s"', origin, plugin, subpath)
     if timthumb(subpath):
-        LOGGER.info('%s probed for timthumb: %s', origin, subpath)
+        app.logger.info('%s probed for timthumb: %s', origin, subpath)
         return render_template('timthumb.html') 
     return render_template('dummy.html')
 
@@ -68,9 +67,9 @@ def plugin(plugin, subpath='/'):
 def theme(theme, subpath='/'):
     """ Theme probing handler """
     origin = request.remote_addr
-    LOGGER.info('%s probed a theme: "%s" with path "%s"', origin, theme, subpath)
+    app.logger.info('%s probed a theme: "%s" with path "%s"', origin, theme, subpath)
     if timthumb(subpath):
-        LOGGER.info('%s probed for timthumb: %s', origin, subpath)
+        app.logger.info('%s probed for timthumb: %s', origin, subpath)
         return render_template('timthumb.html')
     return render_template('dummy.html') 
 

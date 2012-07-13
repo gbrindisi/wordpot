@@ -3,7 +3,6 @@
 from flask import request
 from wordpot import app
 import re
-from wordpot.logger import *
 
 # --------------
 # TimThumb check
@@ -27,6 +26,6 @@ def user_enumeration(args):
         for k, a in enumerate(app.config['AUTHORS']):
             if (k + 1) == int(args['author']):
                 print 'success'
-                LOGGER.info('%s probed author page for: %s', origin, a)
+                app.logger.info('%s probed author page for: %s', origin, a)
                 return True
     return False

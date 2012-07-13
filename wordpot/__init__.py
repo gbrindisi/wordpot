@@ -22,7 +22,7 @@ class RegexConverter(BaseConverter):
 # Building app
 # ------------
 
-app = Flask(__name__)
+app = Flask('wordpot')
 app.url_map.converters['regex'] = RegexConverter
 
 import wordpot.views
