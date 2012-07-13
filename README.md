@@ -13,6 +13,8 @@ Wordpot is a Wordpress honeypot which detects probes for plugins, themes, timthu
       --theme=THEME  Default theme name
       --ver=VERSION  Wordpress version
 
+To configure the honeypot you can edit the config file `wordpot.conf` or provide arguments trough the command line interface as shown above.
+
 ## Theme support
 
 The html skeleton is stored in `templates/dummy.html` and you can use a wordpress theme as you would in a normal Wordpress installation by putting the theme folder in the `static/wp-content/themes/` directory. 
