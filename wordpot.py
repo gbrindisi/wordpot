@@ -36,6 +36,6 @@ if __name__ == '__main__':
     parse_options()
     logging_setup()
 
-    app.logger.info('Honeypot started on %s:%s', app.config['HOST'], app.config['PORT'])
+    LOGGER.info('Honeypot started on %s:%s', app.config['HOST'], app.config['PORT'])
     app.run(debug=app.debug, host=app.config['HOST'], port=int(app.config['PORT']))
     

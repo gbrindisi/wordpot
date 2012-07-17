@@ -2,6 +2,7 @@
 
 from flask import request
 from wordpot import app
+from wordpot.logger import LOGGER
 import re
 
 # --------------
@@ -26,6 +27,6 @@ def user_enumeration(args):
         for k, a in enumerate(app.config['AUTHORS']):
             if (k + 1) == int(args['author']):
                 print 'success'
-                app.logger.info('%s probed author page for: %s', origin, a)
+                LOGGER.info('%s probed author page for: %s', origin, a)
                 return True
     return False
