@@ -32,9 +32,11 @@ def parse_options():
 # Import config from file
 app.config.from_pyfile('../wordpot.conf')
 
+# Setup logging before execute the main
+logging_setup()
+
 if __name__ == '__main__':
     parse_options()
-    logging_setup()
 
     LOGGER.info('Honeypot started on %s:%s', app.config['HOST'], app.config['PORT'])
     app.run(debug=app.debug, host=app.config['HOST'], port=int(app.config['PORT']))
