@@ -12,7 +12,9 @@ def logging_setup():
     formatter = logging.Formatter('%(asctime)s - %(message)s')
 
     # File handler
-    logfile = os.path.join(os.path.dirname(__file__), '../logs/wordpot.log')
+    logfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../logs/wordpot.log')
+    print logfile
+    print logfile
     fh = logging.handlers.RotatingFileHandler(logfile, 'a', 2097152, 10)
     fh.setFormatter(formatter)
 

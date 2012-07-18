@@ -29,7 +29,8 @@ def parse_options():
             app.config[opt] = val
 
 # Import config from file
-conffile = os.path.join(os.path.dirname(__file__), '../wordpot.conf')
+conffile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'wordpot.conf')
+print conffile
 app.config.from_pyfile(conffile)
 
 # Setup logging before execute the main
