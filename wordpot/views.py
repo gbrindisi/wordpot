@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from flask import request, render_template, redirect, url_for
+from flask import request, render_template, redirect, url_for, abort
 from wordpot import app
 from wordpot.helpers import *
 from wordpot.logger import LOGGER
@@ -58,9 +58,16 @@ def plugin(plugin, subpath='/'):
     """ Plugin probing handler """
     origin = request.remote_addr
     LOGGER.info('%s probed a plugin: "%s" with path "%s"', origin, plugin, subpath)
+    
+    # Is the plugin in the whitelist?
+    if not is_plugin_whitelisted(plugin):
+        abort(404)
+
+    # They are looking for timthumb?    
     if timthumb(subpath):
         LOGGER.info('%s probed for timthumb: %s', origin, subpath)
         return render_template('timthumb.html') 
+
     return render_template('dummy.html')
 
 @app.route('/wp-content/themes/<theme>', methods=['GET', 'POST'])
@@ -69,8 +76,15 @@ def theme(theme, subpath='/'):
     """ Theme probing handler """
     origin = request.remote_addr
     LOGGER.info('%s probed a theme: "%s" with path "%s"', origin, theme, subpath)
+
+    # Is the theme whitelisted?
+    if not is_theme_whitelisted(theme):
+        abort(404)
+
+    # They are looking for timthumb?    
     if timthumb(subpath):
         LOGGER.info('%s probed for timthumb: %s', origin, subpath)
         return render_template('timthumb.html')
+
     return render_template('dummy.html') 
 

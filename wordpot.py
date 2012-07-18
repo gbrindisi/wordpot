@@ -30,7 +30,6 @@ def parse_options():
 
 # Import config from file
 conffile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'wordpot.conf')
-print conffile
 app.config.from_pyfile(conffile)
 
 # Setup logging before execute the main

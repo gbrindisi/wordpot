@@ -13,8 +13,6 @@ def logging_setup():
 
     # File handler
     logfile = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../logs/wordpot.log')
-    print logfile
-    print logfile
     fh = logging.handlers.RotatingFileHandler(logfile, 'a', 2097152, 10)
     fh.setFormatter(formatter)
 

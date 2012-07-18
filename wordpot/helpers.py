@@ -30,3 +30,35 @@ def user_enumeration(args):
                 LOGGER.info('%s probed author page for: %s', origin, a)
                 return True
     return False
+
+# -----------------
+# Plugins whitelist
+# -----------------
+
+def is_plugin_whitelisted(plugin):
+    # If no whitelist has been set, return True
+    if len(app.config['PLUGINS']) == 0:
+        return True
+
+    if plugin in app.config['PLUGINS']:
+        return True
+
+    return False
+
+# ----------------
+# Themes whitelist
+# ----------------
+
+def is_theme_whitelisted(theme):
+    # If no whitelist has been set, return True
+    if len(app.config['THEMES']) == 0:
+        return True
+    
+    # If the theme probed is the theme in use
+    if theme == app.config['THEME']:
+        return True
+
+    if theme in app.config['THEMES']:
+        return True
+
+    return False
