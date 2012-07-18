@@ -10,27 +10,27 @@ except ImportError:
 from wordpot import app
 from wordpot.logger import *
 from optparse import OptionParser
+import os
 
 def parse_options():
     usage = "usage: %prog [options]"
 
     parser = OptionParser(usage=usage)
-    parser.add_option('--host', dest='host', default='127.0.0.1', help='Host address')
-    parser.add_option('--port', dest='port', default='80', help='Port number')
-    parser.add_option('--title', dest='title', default='Random Ramblings', help='Blog title')
-    parser.add_option('--theme', dest='theme', default='twentyeleven', help='Default theme name')
-    parser.add_option('--ver', dest='version', default='2.8', help='Wordpress version')
+    parser.add_option('--host', dest='HOST', help='Host address')
+    parser.add_option('--port', dest='PORT', help='Port number')
+    parser.add_option('--title', dest='BLOGTITLE', help='Blog title')
+    parser.add_option('--theme', dest='THEME', help='Default theme name')
+    parser.add_option('--ver', dest='VERSION', help='Wordpress version')
 
     (options, args) = parser.parse_args()
     
-    app.config['HOST'] = options.host
-    app.config['PORT'] = options.port
-    app.config['BLOGTITLE'] = options.title
-    app.config['THEME'] = options.theme
-    app.config['VERSION'] = options.version
+    for opt, val in options.__dict__.iteritems():
+        if val is not None:
+            app.config[opt] = val
 
 # Import config from file
-app.config.from_pyfile('../wordpot.conf')
+conffile = os.path.join(os.path.dirname(__file__), '../wordpot.conf')
+app.config.from_pyfile(conffile)
 
 # Setup logging before execute the main
 logging_setup()
