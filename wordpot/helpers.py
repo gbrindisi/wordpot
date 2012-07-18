@@ -36,13 +36,13 @@ def user_enumeration(args):
 # -----------------
 
 def is_plugin_whitelisted(plugin):
-    # If no whitelist has been set, return True
-    if len(app.config['PLUGINS']) == 0:
+    # If PLUGINS option doesn't exist allow all
+    if 'PLUGINS' not in app.config:
         return True
-
-    if plugin in app.config['PLUGINS']:
-        return True
-
+    else:
+        # Plugin is in the whitelist
+        if plugin in app.config['PLUGINS']:
+            return True
     return False
 
 # ----------------
@@ -50,15 +50,11 @@ def is_plugin_whitelisted(plugin):
 # ----------------
 
 def is_theme_whitelisted(theme):
-    # If no whitelist has been set, return True
-    if len(app.config['THEMES']) == 0:
+    # If THEMES options doesn't exist allow all  
+    if 'THEMES' not in app.config:
         return True
-    
-    # If the theme probed is the theme in use
-    if theme == app.config['THEME']:
-        return True
-
-    if theme in app.config['THEMES']:
-        return True
-
+    else:
+        # Theme is in the whitelist
+        if theme in app.config['THEMES'] or theme == app.config['THEME']:
+            return True
     return False
