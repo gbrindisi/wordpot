@@ -57,8 +57,8 @@
 		<div id="primary">
 			<div id="content" role="main">
 
-    {% if pagetype == 'authorarchive' %}    
-    <h1 class="page-title author">Author Archives: <span class="vcard"><a class="url fn n" href="http://127.0.0.1/wordpress/?author=1" title="{{ config['AUTHORS'][0] }}" rel="me">{{ config['AUTHORS'][0] }}</a></span></h1>				
+    {% if vars['AUTHORPAGE'] %}    
+    <h1 class="page-title author">Author Archives: <span class="vcard"><a class="url fn n" href="?author={{ vars['CURRENTAUTHOR'][0] }}" title="{{ vars['CURRENTAUTHOR'][1] }}" rel="me">{{ vars['CURRENTAUTHOR'][1] }}</a></span></h1>				
     {% endif %}							
 					
 	<article id="post-1" class="post-1 post type-post status-publish format-standard hentry category-uncategorized">

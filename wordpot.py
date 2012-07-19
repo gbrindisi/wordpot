@@ -7,7 +7,7 @@ except ImportError:
     print "   $ pip install flask\n"
     exit()
 
-from wordpot import app
+from wordpot import app, pm 
 from wordpot.logger import *
 from optparse import OptionParser
 import os

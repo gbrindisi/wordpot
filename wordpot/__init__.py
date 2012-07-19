@@ -8,6 +8,7 @@ except ImportError:
     exit()
 
 from werkzeug.routing import BaseConverter
+from wordpot.plugins_manager import PluginsManager
 
 # ---------------
 # Regex Converter
@@ -24,5 +25,12 @@ class RegexConverter(BaseConverter):
 
 app = Flask('wordpot')
 app.url_map.converters['regex'] = RegexConverter
+
+# ----------------------------
+# Building the plugins manager
+# ----------------------------
+
+pm = PluginsManager()
+pm.load()
 
 import wordpot.views

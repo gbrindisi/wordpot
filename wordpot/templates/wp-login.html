@@ -6,7 +6,7 @@
     <link rel='stylesheet' id='wp-admin-css'  href='{{ url_for("static", _external=True, filename="wp-admin/css/wp-admin.css") }}' type='text/css' media='all' />
     <link rel='stylesheet' id='colors-fresh-css'  href='{{ url_for("static", _external=True, filename="wp-admin/css/colors-fresh.css") }}' type='text/css' media='all' />
     <meta name='robots' content='noindex,nofollow' />
-{% if errors['BADLOGIN'] %}
+{% if vars['BADLOGIN'] %}
 <script type="text/javascript">
 addLoadEvent = function(func){if(typeof jQuery!="undefined")jQuery(document).ready(func);else if(typeof wpOnload!='function'){wpOnload=func;}else{var oldonload=wpOnload;wpOnload=function(){oldonload();func();}}};
 function s(id,pos){g(id).left=pos+'px';}
@@ -19,8 +19,8 @@ addLoadEvent(function(){ var p=new Array(15,30,15,0,-15,-30,-15,0);p=p.concat(p.
 	<body class="login">
 	<div id="login">
 		<h1><a href="http://wordpress.org/" title="Powered by WordPress">Test</a></h1>
-        {% if errors['BADLOGIN'] %}
-        <div id="login_error">	<strong>ERROR</strong>: Invalid username. <a href="{{ url_for('login', _external=True) + '?action=lostpassword' }}" title="Password Lost and Found">Lost your password</a>?<br />
+        {% if vars['BADLOGIN'] %}
+        <div id="login_error">	<strong>ERROR</strong>: Invalid username. <a href="wp-login.php?action=lostpassword" title="Password Lost and Found">Lost your password</a>?<br />
 </div>
         {% endif %}
 <form name="loginform" id="loginform" action="wp-login.php" method="post">

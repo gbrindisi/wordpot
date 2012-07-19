@@ -1,48 +1,33 @@
 #!/usr/bin/env python
 
 from flask import request, render_template, redirect, url_for, abort
-from wordpot import app
+from wordpot import app, pm
 from wordpot.helpers import *
 from wordpot.logger import LOGGER
 
-@app.route('/')
-@app.route('/index.php')
-def homepage():
-    origin = request.remote_addr
-    if user_enumeration(request.args):
-        return render_template('dummy.html', pagetype='authorarchive')
-    else:
-        return render_template('dummy.html')
+@app.route('/', methods=['GET', 'POST'])
+@app.route('/<file>.<ext>', methods=['GET', 'POST'])
+def commons(file=None, ext=None):
 
-@app.route('/readme.html', methods=['GET', 'POST'])
-def readme():
-    """ Readme probing handler """
-    origin = request.remote_addr
-    LOGGER.info('%s probed for the readme', origin)
-    return render_template('readme.html')
-
-@app.route('/xmlrpc.php', methods=['GET', 'POST'])
-def xmlrpc():
-    """ xmlrpc.php probing handler """
-    origin = request.remote_addr
-    LOGGER.info('%s probed for xmlrpc.php', origin)
-    return render_template('xmlrpc.html') 
-
-@app.route('/wp-login.php', methods=['GET', 'POST'])
-def login():
-    """ Login page probing handler """
-    origin = request.remote_addr
-    ERRORS = {}
-    if request.method == 'POST':
-        username = request.form['log']
-        password = request.form['pwd']
-        LOGGER.info('%s tried to login with username %s and password %s', origin, username, password)
-        ERRORS['BADLOGIN'] = True
-        return render_template('wp-login.html', errors=ERRORS)
-    else:
-        ERRORS['BADLOGIN'] = False
-        LOGGER.info('%s probed for the login page', origin)
-        return render_template('wp-login.html', errors=ERRORS)
+    # Plugins hook
+    for p in pm.hook('commons'):
+        try:
+            res = p.run(file=file, ext=ext, request=request)
+            if 'log' in res:
+                LOGGER.info(res['log'])
+            if 'template' in res:
+                if 'template_vars' in res:
+                    return render_template(res['template'], vars=res['template_vars'])
+                return render_template(res['template'], vars={})
+        except Exception, e:
+            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
+   
+    if file is None and ext is None:
+        return render_template('dummy.html', vars={})
+    elif file == 'index' and ext == 'php':
+        return render_template('dummy.html', vars={})
+    else:        
+        abort(404)
 
 @app.route('/wp-admin', methods=['GET', 'POST'])
 @app.route('/wp-admin<regex("\/.*"):subpath>', methods=['GET', 'POST'])
@@ -50,41 +35,71 @@ def admin(subpath='/'):
     """ Admin panel probing handler """
     origin = request.remote_addr
     LOGGER.info('%s probed for the admin panel with path: %s', origin, subpath)
-    return redirect(url_for('login'))
+    
+    # Plugins hook
+    for p in pm.hook('plugins'):
+        try:
+            res = p.run(plugin=plugin, subpath=subpath, request=request)
+            if 'log' in res:
+                LOGGER.info(res['log'])
+            if 'template' in res:
+                if 'template_vars' in res:
+                    return render_template(res['template'], vars=res['template_vars'])
+                return render_template(res['template'], vars={})
+        except Exception, e:
+            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
+    
+    return redirect('wp-login.php')
 
 @app.route('/wp-content/plugins/<plugin>', methods=['GET', 'POST'])
 @app.route('/wp-content/plugins/<plugin><regex("(\/.*)"):subpath>', methods=['GET', 'POST'])
 def plugin(plugin, subpath='/'):
     """ Plugin probing handler """
     origin = request.remote_addr
-    LOGGER.info('%s probed a plugin: "%s" with path "%s"', origin, plugin, subpath)
+    LOGGER.info('%s probed for plugin "%s" with path: %s', origin, plugin, subpath)
     
     # Is the plugin in the whitelist?
     if not is_plugin_whitelisted(plugin):
         abort(404)
 
-    # They are looking for timthumb?    
-    if timthumb(subpath):
-        LOGGER.info('%s probed for timthumb: %s', origin, subpath)
-        return render_template('timthumb.html') 
+    # Plugins hook
+    for p in pm.hook('plugins'):
+        try:
+            res = p.run(plugin=plugin, subpath=subpath, request=request)
+            if 'log' in res:
+                LOGGER.info(res['log'])
+            if 'template' in res:
+                if 'template_vars' in res:
+                    return render_template(res['template'], vars=res['template_vars'])
+                return render_template(res['template'], vars={})
+        except Exception, e:
+            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
 
-    return render_template('dummy.html')
+    return render_template('dummy.html', vars={})
 
 @app.route('/wp-content/themes/<theme>', methods=['GET', 'POST'])
 @app.route('/wp-content/themes/<theme><regex("(\/.*)"):subpath>', methods=['GET', 'POST'])
 def theme(theme, subpath='/'):
     """ Theme probing handler """
     origin = request.remote_addr
-    LOGGER.info('%s probed a theme: "%s" with path "%s"', origin, theme, subpath)
+    LOGGER.info('%s probed for theme "%s" with path: %s', origin, theme, subpath)
 
     # Is the theme whitelisted?
     if not is_theme_whitelisted(theme):
         abort(404)
 
-    # They are looking for timthumb?    
-    if timthumb(subpath):
-        LOGGER.info('%s probed for timthumb: %s', origin, subpath)
-        return render_template('timthumb.html')
+    # Plugins hook
+    for p in pm.hook('themes'):
+        try:
+            res = p.run(theme=theme, subpath=subpath, request=request)
+            if 'log' in res:
+                LOGGER.info(res['log'])
+            if 'template' in res:
+                if 'template_vars' in res:
+                    return render_template(res['template'], vars=res['template_vars'])
+                return render_template(res['template'], vars={})
+        except Exception, e:
+            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
 
-    return render_template('dummy.html') 
+    return render_template('dummy.html', vars={}) 
 
