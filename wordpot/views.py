@@ -39,7 +39,7 @@ def admin(subpath='/'):
     # Plugins hook
     for p in pm.hook('plugins'):
         try:
-            res = p.run(plugin=plugin, subpath=subpath, request=request)
+            res = p.run(subpath=subpath, request=request)
             if 'log' in res:
                 LOGGER.info(res['log'])
             if 'template' in res:
