@@ -8,7 +8,7 @@ CURRENTPATH = os.path.abspath(os.path.dirname(__file__))
 
 class PluginsManager():
     def __init__(self):
-        self.plugins_path = os.path.join(CURRENTPATH, 'plugins/') 
+        self.plugins_path = os.path.join(CURRENTPATH, 'plugins/')
 
         self.plugins_loaded             = {}
         self.plugins_loaded['plugins']  = []
@@ -29,7 +29,7 @@ class PluginsManager():
             for file in files:
                 if file[-3:] == '.py' and file != '__init__.py':
                     modname = 'wordpot.plugins.' + file[:-3]
-                    plugin = self._import_plugin(modname).Plugin() 
+                    plugin = self._import_plugin(modname).Plugin()
                     plugin._load_config(file[:-3])
 
                     # Add to loaded list organized by categories
@@ -38,15 +38,15 @@ class PluginsManager():
 
     def hook(self, hook):
         return self.plugins_loaded[hook]
-                    
+
 class BasePlugin(object):
     def __init__(self, slug=None):
         self.name           = None
         self.author         = None
-        self.link           = None  
+        self.link           = None
         self.description    = None
         self.version        = None
-        
+
         self.slug           = None
         self.hooks          = None
 
@@ -72,3 +72,10 @@ class BasePlugin(object):
 
     def run(self):
         return {}
+
+    def parse_arguments(self, **kwargs):
+        args = {}
+        for k, v in kwargs.iteritems():
+            args[k] = v
+
+        return args

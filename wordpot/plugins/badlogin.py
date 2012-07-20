@@ -4,12 +4,11 @@ class Plugin(BasePlugin):
     def run(self, **kwargs):
         # Result dict to return
         res = {}
-        res['template_vars'] = {} 
+        res['template_vars'] = {}
+        res['template'] = 'wp-login.html'
 
         # Store input arguments
-        args = {}
-        for k, v in kwargs.iteritems():
-            args[k] = v
+        args = self.parse_arguments(**kwargs)
 
         # First check if the file is wp-login.php
         if not (args['file'] == 'wp-login' and args['ext'] == 'php'):
@@ -23,10 +22,8 @@ class Plugin(BasePlugin):
             password = args['request'].form['pwd']
             res['log'] = '%s tried to login with username %s and password %s' % (origin, username, password)
             res['template_vars']['BADLOGIN'] = True
-            res['template'] = 'wp-login.html'
         else:
             res['log'] = '%s probed for the login page' % origin
-            res['template_vars']['BADLOGIN'] = False 
-            res['template'] = 'wp-login.html'
+            res['template_vars']['BADLOGIN'] = False
 
         return res

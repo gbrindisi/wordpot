@@ -5,16 +5,14 @@ class Plugin(BasePlugin):
     def run(self, **kwargs):
         # Result dict to return
         res = {}
-        res['template_vars'] = {} 
+        res['template_vars'] = {}
 
         # Store input arguments
-        args = {}
-        for k, v in kwargs.iteritems():
-            args[k] = v
+        args = self.parse_arguments(**kwargs)
 
         # Logic
         origin = args['request'].remote_addr
-        req_args = args['request'].args 
+        req_args = args['request'].args
 
         if 'author' in req_args:
             for k, a in enumerate(app.config['AUTHORS']):

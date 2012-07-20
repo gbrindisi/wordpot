@@ -7,11 +7,9 @@ class Plugin(BasePlugin):
     def run(self, **kwargs):
         # Result dict to return
         res = {}
-        
+
         # Store input arguments
-        args = {}
-        for k, v in kwargs.iteritems():
-            args[k] = v
+        args = self.parse_arguments(**kwargs)
 
         # Logic
         if TIMTHUMB_RE.search(args['subpath']) is not None:

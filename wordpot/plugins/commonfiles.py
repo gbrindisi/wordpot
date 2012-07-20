@@ -4,12 +4,10 @@ class Plugin(BasePlugin):
     def run(self, **kwargs):
         # Result dict to return
         res = {}
-        res['template_vars'] = {} 
+        res['template_vars'] = {}
 
         # Store input arguments
-        args = {}
-        for k, v in kwargs.iteritems():
-            args[k] = v
+        args = self.parse_arguments(**kwargs)
 
         # Common files:
         # Real File -> Template
@@ -17,7 +15,7 @@ class Plugin(BasePlugin):
                 'readme.html': 'readme.html',
                 'xmlrpc.php' : 'xmlrpc.html'
                  }
-        
+
         # Logic
         origin = args['request'].remote_addr
         if args['file'] is not None and args['ext'] is not None:
