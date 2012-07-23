@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from wordpot import app
 import logging
 import logging.handlers
 import os

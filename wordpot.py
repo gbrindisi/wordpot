@@ -7,36 +7,17 @@ except ImportError:
     print "   $ pip install flask\n"
     exit()
 
-from wordpot import app, pm 
+from wordpot import app, pm, parse_options, check_options 
 from wordpot.logger import *
-from optparse import OptionParser
+
 import os
 
-def parse_options():
-    usage = "usage: %prog [options]"
-
-    parser = OptionParser(usage=usage)
-    parser.add_option('--host', dest='HOST', help='Host address')
-    parser.add_option('--port', dest='PORT', help='Port number')
-    parser.add_option('--title', dest='BLOGTITLE', help='Blog title')
-    parser.add_option('--theme', dest='THEME', help='Default theme name')
-    parser.add_option('--plugins', dest='PLUGINS', help='Fake installed plugins')
-    parser.add_option('--themes', dest='THEMES', help='Fake installed themes')
-    parser.add_option('--ver', dest='VERSION', help='Wordpress version')
-
-    (options, args) = parser.parse_args()
-    
-    for opt, val in options.__dict__.iteritems():
-        if val is not None:
-            if opt in ['PLUGINS', 'THEMES']:
-                val = [ v.strip() for v in val.split(',') ] 
-            app.config[opt] = val
-
-# Setup logging before execute the main
-logging_setup()
+check_options()
 
 if __name__ == '__main__':
     parse_options()
+    LOGGER.info('Checking command line options')
+    check_options()
 
     LOGGER.info('Honeypot started on %s:%s', app.config['HOST'], app.config['PORT'])
     app.run(debug=app.debug, host=app.config['HOST'], port=int(app.config['PORT']))

@@ -6,12 +6,14 @@ Wordpot is a Wordpress honeypot which detects probes for plugins, themes, timthu
     Usage: wordpot.py [options]
     
     Options:
-      -h, --help     show this help message and exit
-      --host=HOST    Host address
-      --port=PORT    Port address
-      --title=TITLE  Blog Title
-      --theme=THEME  Default theme name
-      --ver=VERSION  Wordpress version
+      -h, --help        show this help message and exit
+      --host=HOST       Host address
+      --port=PORT       Port address
+      --title=TITLE     Blog Title
+      --theme=THEME     Default theme name
+      --plugins=PLUGINS Fake installed plugins
+      --themes=THEMES   Fake installed plugins
+      --ver=VERSION     Wordpress version
 
 To configure the honeypot you can edit the config file `wordpot.conf` or provide arguments trough the command line interface as shown above.
 
