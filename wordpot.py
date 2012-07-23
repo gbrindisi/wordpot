@@ -20,12 +20,16 @@ def parse_options():
     parser.add_option('--port', dest='PORT', help='Port number')
     parser.add_option('--title', dest='BLOGTITLE', help='Blog title')
     parser.add_option('--theme', dest='THEME', help='Default theme name')
+    parser.add_option('--plugins', dest='PLUGINS', help='Fake installed plugins')
+    parser.add_option('--themes', dest='THEMES', help='Fake installed themes')
     parser.add_option('--ver', dest='VERSION', help='Wordpress version')
 
     (options, args) = parser.parse_args()
     
     for opt, val in options.__dict__.iteritems():
         if val is not None:
+            if opt in ['PLUGINS', 'THEMES']:
+                val = [ v.strip() for v in val.split(',') ] 
             app.config[opt] = val
 
 # Setup logging before execute the main
