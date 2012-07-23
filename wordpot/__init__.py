@@ -9,6 +9,7 @@ except ImportError:
 
 from werkzeug.routing import BaseConverter
 from wordpot.plugins_manager import PluginsManager
+import os
 
 # ---------------
 # Regex Converter
@@ -25,6 +26,10 @@ class RegexConverter(BaseConverter):
 
 app = Flask('wordpot')
 app.url_map.converters['regex'] = RegexConverter
+
+# Import config from file
+conffile = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../wordpot.conf')
+app.config.from_pyfile(conffile)
 
 # ----------------------------
 # Building the plugins manager

@@ -17,11 +17,13 @@ To configure the honeypot you can edit the config file `wordpot.conf` or provide
 
 ## Theme support
 
-The html skeleton is stored in `templates/dummy.html` and you can use a wordpress theme as you would in a normal Wordpress installation by putting the theme folder in the `static/wp-content/themes/` directory. 
+You can use a wordpress theme as you would in a normal Wordpress installation by putting the theme folder in the `static/wp-content/themes/` directory. You might also need to edit the html skeleton which is stored in the `templates/` folder and should be named as your theme (e.g. `themename.html`) - take a look at `twentyeleven.html` to see how it works. 
 
 To use the theme start wordpot with the theme option (default value is `twentyeleven`):
     
     $ python wordpot --theme=THEMENAME
+
+Templates are built with the [Jinja2](http://jinja.pocoo.org) template engine.
 
 ## License
 

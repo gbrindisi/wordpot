@@ -28,10 +28,6 @@ def parse_options():
         if val is not None:
             app.config[opt] = val
 
-# Import config from file
-conffile = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'wordpot.conf')
-app.config.from_pyfile(conffile)
-
 # Setup logging before execute the main
 logging_setup()
 

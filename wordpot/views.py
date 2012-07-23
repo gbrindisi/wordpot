@@ -5,6 +5,8 @@ from wordpot import app, pm
 from wordpot.helpers import *
 from wordpot.logger import LOGGER
 
+TEMPLATE = app.config['THEME'] + '.html'
+
 @app.route('/', methods=['GET', 'POST'])
 @app.route('/<file>.<ext>', methods=['GET', 'POST'])
 def commons(file=None, ext=None):
@@ -23,9 +25,9 @@ def commons(file=None, ext=None):
             LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
    
     if file is None and ext is None:
-        return render_template('dummy.html', vars={})
+        return render_template(TEMPLATE, vars={})
     elif file == 'index' and ext == 'php':
-        return render_template('dummy.html', vars={})
+        return render_template(TEMPLATE, vars={})
     else:        
         abort(404)
 
@@ -75,7 +77,7 @@ def plugin(plugin, subpath='/'):
         except Exception, e:
             LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
 
-    return render_template('dummy.html', vars={})
+    return render_template(TEMPLATE, vars={})
 
 @app.route('/wp-content/themes/<theme>', methods=['GET', 'POST'])
 @app.route('/wp-content/themes/<theme><regex("(\/.*)"):subpath>', methods=['GET', 'POST'])
@@ -101,5 +103,5 @@ def theme(theme, subpath='/'):
         except Exception, e:
             LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
 
-    return render_template('dummy.html', vars={}) 
+    return render_template(TEMPLATE, vars={}) 
 
