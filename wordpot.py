@@ -9,7 +9,6 @@ except ImportError:
 
 from wordpot import app, pm, parse_options, check_options 
 from wordpot.logger import *
-
 import os
 
 check_options()

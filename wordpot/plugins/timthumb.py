@@ -4,22 +4,14 @@ import re
 TIMTHUMB_RE     = re.compile('[tim]*thumb|uploadify', re.I)
 
 class Plugin(BasePlugin):
-    def run(self, **kwargs):
-        # Result dict to return
-        res = {}
-        
-        # Store input arguments
-        args = {}
-        for k, v in kwargs.iteritems():
-            args[k] = v
-
+    def run(self):
         # Logic
-        if TIMTHUMB_RE.search(args['subpath']) is not None:
+        if TIMTHUMB_RE.search(self.inputs['subpath']) is not None:
             # Message to log
-            log = '%s probed for timthumb: %s' % (args['request'].remote_addr, args['subpath'])
-            res['log'] = log
+            log = '%s probed for timthumb: %s' % (self.inputs['request'].remote_addr, self.inputs['subpath'])
+            self.outputs['log'] = log
 
             # Template to render
-            res['template'] = 'timthumb.html'
+            self.outputs['template'] = 'timthumb.html'
 
-        return res
+        return

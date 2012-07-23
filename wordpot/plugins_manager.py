@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 from flask import request
+from wordpot.logger import *
 import os
 import ConfigParser
 
@@ -52,6 +53,9 @@ class BasePlugin(object):
 
         self.request        = None
 
+        self.inputs         = {}
+        self.outputs        = {}
+
     def _load_config(self, slug=None):
         self.slug = slug
         try:
@@ -69,6 +73,19 @@ class BasePlugin(object):
             self.hooks = [v.strip() for v in config.get('plugin', 'hooks').split(',')]
         except Exception, e:
             pass
+    
+    def start(self, **kwargs):
+        # First flush previous inputs/outputs
+        self.inputs = {}
+        self.outputs = {}
+
+        # Parse arguments 
+        for k, v in kwargs.iteritems():
+            self.inputs[k] = v
+        try:
+            self.run()
+        except Exception, e:
+            LOGGER.error('Unable to run plugin: %s\n%s', self.name, e.message)
 
     def run(self):
-        return {}
+        return

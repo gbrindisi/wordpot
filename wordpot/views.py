@@ -8,25 +8,22 @@ from wordpot.logger import LOGGER
 TEMPLATE = app.config['THEME'] + '.html'
 
 @app.route('/', methods=['GET', 'POST'])
-@app.route('/<file>.<ext>', methods=['GET', 'POST'])
-def commons(file=None, ext=None):
+@app.route('/<filename>.<ext>', methods=['GET', 'POST'])
+def commons(filename=None, ext=None):
 
     # Plugins hook
     for p in pm.hook('commons'):
-        try:
-            res = p.run(file=file, ext=ext, request=request)
-            if 'log' in res:
-                LOGGER.info(res['log'])
-            if 'template' in res:
-                if 'template_vars' in res:
-                    return render_template(res['template'], vars=res['template_vars'])
-                return render_template(res['template'], vars={})
-        except Exception, e:
-            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
+        p.start(filename=filename, ext=ext, request=request)
+        if 'log' in p.outputs:
+            LOGGER.info(p.outputs['log'])
+        if 'template' in p.outputs:
+            if 'template_vars' in p.outputs:
+                return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
+            return render_template(p.outputs['template'], vars={})
    
-    if file is None and ext is None:
+    if filename is None and ext is None:
         return render_template(TEMPLATE, vars={})
-    elif file == 'index' and ext == 'php':
+    elif filename == 'index' and ext == 'php':
         return render_template(TEMPLATE, vars={})
     else:        
         abort(404)
@@ -40,16 +37,13 @@ def admin(subpath='/'):
     
     # Plugins hook
     for p in pm.hook('plugins'):
-        try:
-            res = p.run(subpath=subpath, request=request)
-            if 'log' in res:
-                LOGGER.info(res['log'])
-            if 'template' in res:
-                if 'template_vars' in res:
-                    return render_template(res['template'], vars=res['template_vars'])
-                return render_template(res['template'], vars={})
-        except Exception, e:
-            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
+        p.start(subpath=subpath, request=request)
+        if 'log' in p.outputs:
+            LOGGER.info(p.outputs['log'])
+        if 'template' in p.outputs:
+            if 'template_vars' in p.outputs:
+                return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
+            return render_template(p.outputs['template'], vars={})
     
     return redirect('wp-login.php')
 
@@ -66,16 +60,13 @@ def plugin(plugin, subpath='/'):
 
     # Plugins hook
     for p in pm.hook('plugins'):
-        try:
-            res = p.run(plugin=plugin, subpath=subpath, request=request)
-            if 'log' in res:
-                LOGGER.info(res['log'])
-            if 'template' in res:
-                if 'template_vars' in res:
-                    return render_template(res['template'], vars=res['template_vars'])
-                return render_template(res['template'], vars={})
-        except Exception, e:
-            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
+        p.start(plugin=plugin, subpath=subpath, request=request)
+        if 'log' in p.outputs:
+            LOGGER.info(p.outputs['log'])
+        if 'template' in p.outputs:
+            if 'template_vars' in p.outputs:
+                return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
+            return render_template(p.outputs['template'], vars={})
 
     return render_template(TEMPLATE, vars={})
 
@@ -92,16 +83,13 @@ def theme(theme, subpath='/'):
 
     # Plugins hook
     for p in pm.hook('themes'):
-        try:
-            res = p.run(theme=theme, subpath=subpath, request=request)
-            if 'log' in res:
-                LOGGER.info(res['log'])
-            if 'template' in res:
-                if 'template_vars' in res:
-                    return render_template(res['template'], vars=res['template_vars'])
-                return render_template(res['template'], vars={})
-        except Exception, e:
-            LOGGER.error('Unable to run plugin: %s\n%s', p.name, e.message)
+        p.start(theme=theme, subpath=subpath, request=request)
+        if 'log' in p.outputs:
+            LOGGER.info(p.outputs['log'])
+        if 'template' in p.outputs:
+            if 'template_vars' in p.outputs:
+                return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
+            return render_template(p.outputs['template'], vars={})
 
     return render_template(TEMPLATE, vars={}) 
 

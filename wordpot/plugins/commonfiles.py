@@ -1,15 +1,9 @@
 from wordpot.plugins_manager import BasePlugin
 
 class Plugin(BasePlugin):
-    def run(self, **kwargs):
-        # Result dict to return
-        res = {}
-        res['template_vars'] = {} 
-
-        # Store input arguments
-        args = {}
-        for k, v in kwargs.iteritems():
-            args[k] = v
+    def run(self):
+        # Initialize template vars dict 
+        self.outputs['template_vars'] = {} 
 
         # Common files:
         # Real File -> Template
@@ -19,12 +13,12 @@ class Plugin(BasePlugin):
                  }
         
         # Logic
-        origin = args['request'].remote_addr
-        if args['file'] is not None and args['ext'] is not None:
-            filename = args['file'] + '.' + args['ext']
+        origin = self.inputs['request'].remote_addr
+        if self.inputs['filename'] is not None and self.inputs['ext'] is not None:
+            filename = self.inputs['filename'] + '.' + self.inputs['ext']
 
             if filename in common:
-                res['log'] = '%s probed for: %s' % (origin, filename)
-                res['template'] = common[filename]
+                self.outputs['log'] = '%s probed for: %s' % (origin, filename)
+                self.outputs['template'] = common[filename]
 
-        return res
+        return
