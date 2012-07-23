@@ -27,6 +27,14 @@ To use the theme start wordpot with the theme option (default value is `twentyel
 
 Templates are built with the [Jinja2](http://jinja.pocoo.org) template engine.
 
+## Expandable with plugins (*beta*)
+
+Wordpot can be expanded with plugins to improve its behaviour or just expand some functionalities.
+
+For example you can write a plugin to mimick a particular vulnerability in a Wordpress plugin or theme.
+
+Learn more in the dedicated [wiki page](https://github.com/gbrindisi/wordpot/wiki/Plugins).
+
 ## License
 
 ISC License.
