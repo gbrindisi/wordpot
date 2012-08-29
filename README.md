@@ -35,6 +35,10 @@ For example you can write a plugin to mimick a particular vulnerability in a Wor
 
 Learn more in the dedicated [wiki page](https://github.com/gbrindisi/wordpot/wiki/Plugins).
 
+## Links
+
+* Project Homepage: http://brindi.si/g/projects/wordpot.html
+
 ## License
 
 ISC License.
