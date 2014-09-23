@@ -89,3 +89,15 @@ class BasePlugin(object):
 
     def run(self):
         return
+
+    def to_json_log(self, **kwargs):
+        import json
+        return json.dumps(dict(kwargs, 
+            source_ip=self.inputs['request'].remote_addr, 
+            source_port=self.inputs['request'].environ['REMOTE_PORT'],
+            dest_ip=self.inputs['request'].environ['SERVER_NAME'],
+            dest_port=self.inputs['request'].environ['SERVER_PORT'],
+            user_agent=self.inputs['request'].user_agent.string,
+            url=self.inputs['request'].url
+        ))
+

@@ -83,6 +83,19 @@ except:
     LOGGER.error('Can\'t load conf file')
 check_options()
 
+if app.config['HPFEEDS_ENABLED']:
+    import hpfeeds
+    print 'Connecting to hpfeeds broker {}:{}'.format(app.config['HPFEEDS_HOST'], app.config['HPFEEDS_PORT'])
+    app.config['hpfeeds_client'] = hpfeeds.new(
+        app.config['HPFEEDS_HOST'], 
+        app.config['HPFEEDS_PORT'], 
+        app.config['HPFEEDS_IDENT'], 
+        app.config['HPFEEDS_SECRET']
+    )
+    app.config['hpfeeds_client'].s.settimeout(0.01)
+else:
+    LOGGER.warn('hpfeeds is disabled')
+
 # ----------------------------
 # Building the plugins manager
 # ----------------------------
