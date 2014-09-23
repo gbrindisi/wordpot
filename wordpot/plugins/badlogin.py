@@ -16,6 +16,7 @@ class Plugin(BasePlugin):
             username = self.inputs['request'].form['log']
             password = self.inputs['request'].form['pwd']
             self.outputs['log'] = '%s tried to login with username %s and password %s' % (origin, username, password)
+            self.outputs['log_json'] = self.to_json_log(username=username, password=password, plugin='badlogin')
             self.outputs['template_vars']['BADLOGIN'] = True
             self.outputs['template'] = 'wp-login.html'
         else:

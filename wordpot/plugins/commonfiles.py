@@ -19,6 +19,7 @@ class Plugin(BasePlugin):
 
             if filename in common:
                 self.outputs['log'] = '%s probed for: %s' % (origin, filename)
+                self.outputs['log_json'] = self.to_json_log(filename=filename, plugin='commonfiles')
                 self.outputs['template'] = common[filename]
 
         return

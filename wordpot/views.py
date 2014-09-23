@@ -16,6 +16,8 @@ def commons(filename=None, ext=None):
         p.start(filename=filename, ext=ext, request=request)
         if 'log' in p.outputs:
             LOGGER.info(p.outputs['log'])
+        if 'log_json' in p.outputs and app.config['HPFEEDS_ENABLED']:
+            app.config['hpfeeds_client'].publish(app.config['HPFEEDS_TOPIC'], p.outputs['log_json'])
         if 'template' in p.outputs:
             if 'template_vars' in p.outputs:
                 return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
@@ -40,6 +42,8 @@ def admin(subpath='/'):
         p.start(subpath=subpath, request=request)
         if 'log' in p.outputs:
             LOGGER.info(p.outputs['log'])
+        if 'log_json' in p.outputs and app.config['HPFEEDS_ENABLED']:
+            app.config['hpfeeds_client'].publish(app.config['HPFEEDS_TOPIC'], p.outputs['log_json'])
         if 'template' in p.outputs:
             if 'template_vars' in p.outputs:
                 return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
@@ -63,6 +67,8 @@ def plugin(plugin, subpath='/'):
         p.start(plugin=plugin, subpath=subpath, request=request)
         if 'log' in p.outputs:
             LOGGER.info(p.outputs['log'])
+        if 'log_json' in p.outputs and app.config['HPFEEDS_ENABLED']:
+            app.config['hpfeeds_client'].publish(app.config['HPFEEDS_TOPIC'], p.outputs['log_json'])
         if 'template' in p.outputs:
             if 'template_vars' in p.outputs:
                 return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
@@ -86,6 +92,8 @@ def theme(theme, subpath='/'):
         p.start(theme=theme, subpath=subpath, request=request)
         if 'log' in p.outputs:
             LOGGER.info(p.outputs['log'])
+        if 'log_json' in p.outputs and app.config['HPFEEDS_ENABLED']:
+            app.config['hpfeeds_client'].publish(app.config['HPFEEDS_TOPIC'], p.outputs['log_json'])
         if 'template' in p.outputs:
             if 'template_vars' in p.outputs:
                 return render_template(p.outputs['template'], vars=p.outputs['template_vars'])
