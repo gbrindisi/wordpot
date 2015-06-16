@@ -3,4 +3,5 @@
 *.pyc
 !.gitignore
 /env
+/venv
 

@@ -46,6 +46,7 @@ def parse_options():
     parser.add_option('--plugins', dest='PLUGINS', help='Fake installed plugins')
     parser.add_option('--themes', dest='THEMES', help='Fake installed themes')
     parser.add_option('--ver', dest='VERSION', help='Wordpress version')
+    parser.add_option('--server', dest='SERVER', help='Custom "Server" header')
 
     (options, args) = parser.parse_args()
     
@@ -54,6 +55,7 @@ def parse_options():
             if opt in ['PLUGINS', 'THEMES']:
                 val = [ v.strip() for v in val.split(',') ] 
             app.config[opt] = val
+
 
 def check_options():
     for k, v in REQUIRED_OPTIONS.iteritems():
@@ -95,6 +97,18 @@ if app.config['HPFEEDS_ENABLED']:
     app.config['hpfeeds_client'].s.settimeout(0.01)
 else:
     LOGGER.warn('hpfeeds is disabled')
+
+
+# ------------------------
+# Add Custom Server Header
+#-------------------------
+
+@app.after_request
+def add_server_header(response):
+    if app.config['SERVER']:
+        response.headers['Server'] = app.config['SERVER']
+
+    return response
 
 # ----------------------------
 # Building the plugins manager
