@@ -3,7 +3,7 @@
 from flask import request
 from wordpot.logger import *
 import os
-import ConfigParser
+import configparser
 
 CURRENTPATH = os.path.abspath(os.path.dirname(__file__))
 
@@ -59,7 +59,7 @@ class BasePlugin(object):
     def _load_config(self, slug=None):
         self.slug = slug
         try:
-            config = ConfigParser.ConfigParser()
+            config = configparser.ConfigParser()
             plugin_config = os.path.join(CURRENTPATH, 'plugins/%s.ini' % self.slug)
 
             config.read(plugin_config)
@@ -71,7 +71,7 @@ class BasePlugin(object):
             self.version = config.get('plugin', 'version')
 
             self.hooks = [v.strip() for v in config.get('plugin', 'hooks').split(',')]
-        except Exception, e:
+        except Exception as e:
             pass
     
     def start(self, **kwargs):
@@ -80,11 +80,11 @@ class BasePlugin(object):
         self.outputs = {}
 
         # Parse arguments 
-        for k, v in kwargs.iteritems():
+        for k, v in kwargs.items():
             self.inputs[k] = v
         try:
             self.run()
-        except Exception, e:
+        except Exception as e:
             LOGGER.error('Unable to run plugin: %s\n%s', self.name, e.message)
 
     def run(self):

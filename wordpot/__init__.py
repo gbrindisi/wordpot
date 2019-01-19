@@ -3,8 +3,8 @@
 try:
     from flask import Flask
 except ImportError:
-    print "\n[X] Please install Flask:"
-    print "   $ pip install flask\n"
+    print("\n[X] Please install Flask:")
+    print("   $ pip install flask\n")
     exit()
 
 from optparse import OptionParser
@@ -50,7 +50,7 @@ def parse_options():
 
     (options, args) = parser.parse_args()
     
-    for opt, val in options.__dict__.iteritems():
+    for opt, val in options.__dict__.items():
         if val is not None:
             if opt in ['PLUGINS', 'THEMES']:
                 val = [ v.strip() for v in val.split(',') ] 
@@ -58,7 +58,7 @@ def parse_options():
 
 
 def check_options():
-    for k, v in REQUIRED_OPTIONS.iteritems():
+    for k, v in REQUIRED_OPTIONS.items():
         if k not in app.config:
             LOGGER.error('%s was not set. Falling back to default: %s', k, v)
             app.config[k] = v
@@ -87,7 +87,7 @@ check_options()
 
 if app.config['HPFEEDS_ENABLED']:
     import hpfeeds
-    print 'Connecting to hpfeeds broker {}:{}'.format(app.config['HPFEEDS_HOST'], app.config['HPFEEDS_PORT'])
+    print('Connecting to hpfeeds broker {}:{}'.format(app.config['HPFEEDS_HOST'], app.config['HPFEEDS_PORT']))
     app.config['hpfeeds_client'] = hpfeeds.new(
         app.config['HPFEEDS_HOST'], 
         app.config['HPFEEDS_PORT'], 
