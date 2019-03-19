@@ -3,8 +3,8 @@
 try:
     from flask import Flask
 except ImportError:
-    print "\n[X] Please install Flask:"
-    print "   $ pip install flask\n"
+    print("\n[X] Please install Flask:")
+    print("   $ pip install flask\n")
     exit()
 
 from wordpot import app, pm, parse_options, check_options 
