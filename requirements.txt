@@ -1,2 +1,2 @@
-Flask==0.10.1
+Flask==2.2.2
 -e git+https://github.com/threatstream/hpfeeds/#egg=hpfeeds-dev
